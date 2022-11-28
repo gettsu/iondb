@@ -5,7 +5,7 @@ import (
 	"unsafe"
 )
 
-const slDebug = true
+const slDebug = false
 
 type SkipList[K, V any] struct {
 	handler    IonDictionaryHandler

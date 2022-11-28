@@ -75,7 +75,9 @@ func TestDictCreation(t *testing.T) {
 	t.Run("create dict", func(t *testing.T) {
 		createTestDictionary(&dict, &handler, &record, IonKeyType(kType), size, numElements)
 		skipList := (*ionSkipList)(unsafe.Pointer(dict.instance))
-		printSkipList(skipList)
+        if slDebug {
+            printSkipList(skipList)
+        }
 		if dict.instance.kType != KeyTypeNumericSigned {
 			t.Errorf("got keyType = %v, want = %v", dict.instance.kType, KeyTypeNumericSigned)
 		}
