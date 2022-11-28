@@ -19,19 +19,19 @@ func NewCursor[K, V any](dict *IonDictionary, predicate IonPredicate) *Cursor[K,
 	return &cur
 }
 
-func (cursor *Cursor[K, V]) hasNext() bool {
+func (cursor *Cursor[K, V]) HasNext() bool {
 	return cursor.dictCursor.status == csCursorInitialized || cursor.dictCursor.status == csCursorActive
 }
 
-func (cursor *Cursor[K, V]) next() bool {
+func (cursor *Cursor[K, V]) Next() bool {
 	status := cursor.dictCursor.next(cursor.dictCursor, &(cursor.record))
 	return status == csCursorInitialized || status == csCursorActive
 }
 
-func (cursor *Cursor[K, V]) getKey() K {
+func (cursor *Cursor[K, V]) GetKey() K {
 	return *((*K)(cursor.record.key))
 }
 
-func (cursor *Cursor[K, V]) getValue() V {
+func (cursor *Cursor[K, V]) GetValue() V {
 	return *((*V)(cursor.record.value))
 }
