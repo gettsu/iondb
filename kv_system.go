@@ -5,10 +5,10 @@ import "unsafe"
 type IonKeyType int
 
 const (
-	keyTypeNumericSigned = iota
-	keyTypeNumericUnsigned
-	keyTypeCharArray
-	keyTypeNullTerminatedString
+	KeyTypeNumericSigned = iota
+	KeyTypeNumericUnsigned
+	KeyTypeCharArray
+	KeyTypeNullTerminatedString
 )
 
 type IonDictionaryType int

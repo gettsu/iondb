@@ -472,21 +472,21 @@ func slGenLevel(skipList *ionSkipList) ionSlLevel {
 }
 
 func printSkipList(skipList *ionSkipList) {
-    cursor := skipList.head
-    for cursor.next[0] != nil {
-        level := cursor.next[0].height + 1
+	cursor := skipList.head
+	for cursor.next[0] != nil {
+		level := cursor.next[0].height + 1
 
-        if skipList.super.kType == keyTypeNumericSigned {
-            key := *((*int)(cursor.next[0].key))
-            val := *((*string)(cursor.next[0].val))
+		if skipList.super.kType == KeyTypeNumericSigned {
+			key := *((*int)(cursor.next[0].key))
+			val := *((*string)(cursor.next[0].val))
 
-            println("k: ", key, "(v: ", val, ") [l: ", level, "]")
-        } else if skipList.super.kType == keyTypeNullTerminatedString {
-            key := *((*string)(cursor.next[0].key))
-            val := *((*int)(cursor.next[0].val))
-            println("k: ", key, "(v: ", val, ") [l: ", level, "]")
-        }
-        cursor = cursor.next[0]
-    }
-    println("end")
-} 
+			println("k: ", key, "(v: ", val, ") [l: ", level, "]")
+		} else if skipList.super.kType == KeyTypeNullTerminatedString {
+			key := *((*string)(cursor.next[0].key))
+			val := *((*int)(cursor.next[0].val))
+			println("k: ", key, "(v: ", val, ") [l: ", level, "]")
+		}
+		cursor = cursor.next[0]
+	}
+	println("end")
+}

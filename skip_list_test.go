@@ -8,7 +8,7 @@ import (
 func TestSkipListCombined(t *testing.T) {
 	one := 1
 	t.Run("skipList", func(t *testing.T) {
-		dict := NewSkipList[int, int](-1, keyTypeNumericSigned, int(unsafe.Sizeof(one)), uint(unsafe.Sizeof(one)), 10)
+		dict := NewSkipList[int, int](-1, KeyTypeNumericSigned, int(unsafe.Sizeof(one)), uint(unsafe.Sizeof(one)), 10)
 		dict.Insert(3, 10)
 		dict.Insert(4, 100)
 
@@ -57,7 +57,7 @@ func createTestDictionary(dict *IonDictionary, handler *IonDictionaryHandler, re
 func createDictStdCond(dict *IonDictionary, handler *IonDictionaryHandler) {
 	one := 1
 	record := IonRecordInfo{IonKeySize(unsafe.Sizeof(one)), 10}
-	kType := keyTypeNumericSigned
+	kType := KeyTypeNumericSigned
 	size := 7
 	numElements := 25
 	createTestDictionary(dict, handler, &record, IonKeyType(kType), size, numElements)
@@ -68,16 +68,16 @@ func TestDictCreation(t *testing.T) {
 	var handler IonDictionaryHandler
 	one := 1
 	record := IonRecordInfo{IonKeySize(unsafe.Sizeof(one)), 10}
-	kType := keyTypeNumericSigned
+	kType := KeyTypeNumericSigned
 	size := 50
 	numElements := 26
 
 	t.Run("create dict", func(t *testing.T) {
 		createTestDictionary(&dict, &handler, &record, IonKeyType(kType), size, numElements)
 		skipList := (*ionSkipList)(unsafe.Pointer(dict.instance))
-        printSkipList(skipList)
-		if dict.instance.kType != keyTypeNumericSigned {
-			t.Errorf("got keyType = %v, want = %v", dict.instance.kType, keyTypeNumericSigned)
+		printSkipList(skipList)
+		if dict.instance.kType != KeyTypeNumericSigned {
+			t.Errorf("got keyType = %v, want = %v", dict.instance.kType, KeyTypeNumericSigned)
 		}
 		if dict.instance.record.keySize != IonKeySize(unsafe.Sizeof(one)) {
 			t.Errorf("got keySize = %v, want = %v", dict.instance.record.keySize, IonKeySize(unsafe.Sizeof(one)))
@@ -189,7 +189,7 @@ func TestSkipListInit(t *testing.T) {
 			name: "init",
 			args: args{
 				skipList:  &skipList,
-				kType:     keyTypeNumericSigned,
+				kType:     KeyTypeNumericSigned,
 				compare:   dictCompareSignedValue,
 				maxheight: ionSlLevel(7),
 				kSize:     IonKeySize(unsafe.Sizeof(one)),
@@ -205,8 +205,8 @@ func TestSkipListInit(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 			slInitialize(tt.args.skipList, tt.args.kType, tt.args.kSize, tt.args.vSize, tt.args.maxheight, tt.args.pnum, tt.args.pden)
-			if tt.args.skipList.super.kType != keyTypeNumericSigned {
-				t.Errorf("got keyType = %v, want = %v", tt.args.skipList.super.kType, tt.args.kType)
+			if tt.args.skipList.super.kType != KeyTypeNumericSigned {
+				t.Errorf("got KeyType = %v, want = %v", tt.args.skipList.super.kType, tt.args.kType)
 			}
 
 			if tt.args.skipList.super.record.keySize != tt.args.kSize {
@@ -222,7 +222,7 @@ func TestSkipListInit(t *testing.T) {
 
 func initSkipListStdCond(skipList *ionSkipList) {
 	one := 1
-	kType := IonKeyType(keyTypeNumericSigned)
+	kType := IonKeyType(KeyTypeNumericSigned)
 	compare := dictCompareSignedValue
 	maxheight := ionSlLevel(7)
 	kSize := IonKeySize(unsafe.Sizeof(one))

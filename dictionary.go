@@ -171,13 +171,13 @@ type IonPredicateType int8
 func dictSwitchCompare(kType IonKeyType) IonDictionaryCompare {
 	var compare IonDictionaryCompare
 	switch kType {
-	case keyTypeNumericSigned:
+	case KeyTypeNumericSigned:
 		compare = dictCompareSignedValue
-	case keyTypeNumericUnsigned:
+	case KeyTypeNumericUnsigned:
 		compare = dictCompareUnsignedValue
-	case keyTypeCharArray:
+	case KeyTypeCharArray:
 		compare = dictCompareCharArray
-	case keyTypeNullTerminatedString:
+	case KeyTypeNullTerminatedString:
 		compare = dictCompareNullTerminatedString
 	}
 	return compare
