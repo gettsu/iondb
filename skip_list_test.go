@@ -11,6 +11,9 @@ func TestSkipListCombined(t *testing.T) {
 		dict := NewSkipList[int, int](-1, KeyTypeNumericSigned, int(unsafe.Sizeof(one)), uint(unsafe.Sizeof(one)), 10)
 		dict.Insert(3, 10)
 		dict.Insert(4, 100)
+		dict.Insert(5, 12)
+		dict.Insert(8, 20)
+		dict.Insert(7, 4096)
 
 		myVal := dict.Get(3)
 		if dict.LastStatus.Err != ErrOk {
@@ -32,6 +35,11 @@ func TestSkipListCombined(t *testing.T) {
 		myVal = dict.Get(4)
 		if dict.LastStatus.Err != ErrItemNotFound {
 			t.Errorf("got err = %v, want = %v", dict.LastStatus.Err, ErrItemNotFound)
+		}
+		cursor := dict.Range(1, 10)
+		for ; cursor.HasNext(); cursor.Next() {
+			println(cursor.GetKey())
+			println(cursor.GetValue())
 		}
 	})
 }
@@ -76,7 +84,7 @@ func TestDictCreation(t *testing.T) {
 		createTestDictionary(&dict, &handler, &record, IonKeyType(kType), size, numElements)
 		skipList := (*ionSkipList)(unsafe.Pointer(dict.instance))
 		if slDebug {
-			printSkipList(skipList)
+			printSkipList[string](skipList)
 		}
 		if dict.instance.kType != KeyTypeNumericSigned {
 			t.Errorf("got keyType = %v, want = %v", dict.instance.kType, KeyTypeNumericSigned)

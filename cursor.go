@@ -10,12 +10,10 @@ func NewCursor[K, V any](dict *IonDictionary, predicate IonPredicate) *Cursor[K,
 	var cur Cursor[K, V]
 	cur.dict = dict
 
-	dictFind(dict, predicate, &cur.dictCursor)
+	dictFind(dict, predicate, &(cur.dictCursor))
 
-	ionKeySlice := make([]IonByte, dict.instance.record.keySize)
-	cur.record.key = IonKey(&ionKeySlice)
-	ionValSlice := make([]IonByte, dict.instance.record.valueSize)
-	cur.record.value = IonValue(&ionValSlice)
+	cur.record.key = IonKey(alloc(uintptr(dict.instance.record.keySize), nil))
+	cur.record.value = IonValue(alloc(uintptr(dict.instance.record.valueSize), nil))
 	return &cur
 }
 

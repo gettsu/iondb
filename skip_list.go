@@ -224,8 +224,17 @@ func (slHandler slDictHandler) find(dict *IonDictionary, predicate IonPredicate,
 			loc = slFindNode((*ionSkipList)(unsafe.Pointer(dict.instance)), v.lowerBound)
 			if loc.key == nil {
 				loc = loc.next[0]
+			}
+
+			for loc != nil && (dict.instance.compare(loc.key, v.lowerBound, kSize) < 0) {
+				loc = loc.next[0]
+			}
+
+			if loc == nil {
+				(*cursor).status = csEndOfResults
 				return ErrOk
 			}
+
 			(*cursor).status = csCursorInitialized
 
 			slCursor := (*ionSlDictCursor)(unsafe.Pointer(*cursor))
@@ -471,19 +480,19 @@ func slGenLevel(skipList *ionSkipList) ionSlLevel {
 	return level - 1
 }
 
-func printSkipList(skipList *ionSkipList) {
+func printSkipList[V any](skipList *ionSkipList) {
 	cursor := skipList.head
 	for cursor.next[0] != nil {
 		level := cursor.next[0].height + 1
 
 		if skipList.super.kType == KeyTypeNumericSigned {
 			key := *((*int)(cursor.next[0].key))
-			val := *((*string)(cursor.next[0].val))
+			val := *((*V)(cursor.next[0].val))
 
 			println("k: ", key, "(v: ", val, ") [l: ", level, "]")
 		} else if skipList.super.kType == KeyTypeNullTerminatedString {
 			key := *((*string)(cursor.next[0].key))
-			val := *((*int)(cursor.next[0].val))
+			val := *((*V)(cursor.next[0].val))
 			println("k: ", key, "(v: ", val, ") [l: ", level, "]")
 		}
 		cursor = cursor.next[0]
